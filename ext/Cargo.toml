@@ -1,0 +1,28 @@
+[package]
+name = "oxide_native"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+# Esto genera el archivo .so o .dylib que PHP cargará
+name = "oxide_native"
+crate-type = ["cdylib"]
+
+[dependencies]
+# El puente entre Rust y PHP
+ext-php-rs = "0.10"
+
+# Motor Polars con features corregidas para v0.36
+polars = { version = "0.36", features = [
+    "lazy",
+    "csv",
+    "dtype-full",
+    "fmt",
+    "rows",
+    "is_in"
+] }
+
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1

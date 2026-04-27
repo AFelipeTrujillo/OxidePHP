@@ -1,0 +1,40 @@
+# Dependencies
+vendor/
+ext/target/
+ext/Cargo.lock
+
+# Build artifacts
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+*.d
+*.rlib
+*.rmeta
+
+# PHP
+composer.lock
+
+# Rust build
+ext/target/debug/
+ext/target/release/
+ext/target/.rustc_info.json
+ext/target/flycheck*/
+
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log
+
+# Test cache
+.phpunit.result.cache
+phpunit.xml

@@ -1,0 +1,14 @@
+{
+    "name": "afelipetrujillo/oxide-php",
+    "description": "High-performance DataFrames for PHP powered by Rust.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Oxide\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1"
+    }
+}
