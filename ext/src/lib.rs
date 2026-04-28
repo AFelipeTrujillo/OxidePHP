@@ -19,9 +19,10 @@ impl NativeDataFrame {
             return Err(PhpException::default(format!("File not found: {}", path)));
         }
 
-        // Leemos el CSV usando el CsvReader de Polars
-        let df = CsvReader::from_path(p)
+        // En polars 0.44+, CsvReader usa CsvReadOptions
+        let df = CsvReadOptions::from_path(p)
             .map_err(|e| PhpException::default(format!("Polars Error: {}", e)))?
+            .into_reader_with_parse_options(None)
             .finish()
             .map_err(|e| PhpException::default(format!("Failed to parse CSV: {}", e)))?;
 
@@ -35,14 +36,20 @@ impl NativeDataFrame {
 
     /// Calcula el promedio de una columna
     pub fn column_mean(&self, col_name: String) -> PhpResult<f64> {
-        // Buscamos la columna, calculamos el promedio y manejamos errores
-        let series = self.df.column(&col_name)
+        // Buscamos la columna
+        let column = self.df.column(&col_name)
             .map_err(|e| PhpException::default(format!("Column error: {}", e)))?;
 
-        let mean = series.mean()
-            .ok_or_else(|| PhpException::default("Cannot calculate mean for non-numeric column".into()))?;
+        // En polars 0.44+, convertimos Column a Series y calculamos mean
+        let series = column.as_series().ok_or_else(|| {
+            PhpException::default("Cannot convert column to series".into())
+        })?;
 
-        Ok(mean)
+        let mean_val = series.mean().ok_or_else(|| {
+            PhpException::default("Cannot calculate mean for non-numeric column".into())
+        })?;
+
+        Ok(mean_val)
     }
 }
 

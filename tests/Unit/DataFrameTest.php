@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * These tests validate the expected behavior of any DataFrame implementation.
  * We use an ArrayDataFrame as a lightweight test double that simulates
- * the interface contract without requiring the Rust native extension.
+ * the interface contract without requiring any external engine.
  */
 class DataFrameTest extends TestCase
 {
@@ -99,6 +99,69 @@ class DataFrameTest extends TestCase
     }
 
     // -----------------------------------------------------------------------
+    //  sum()
+    // -----------------------------------------------------------------------
+
+    public function test_sum_computes_total_of_column(): void
+    {
+        $df = new ArrayDataFrame([
+            ['value' => 10],
+            ['value' => 20],
+            ['value' => 30],
+        ]);
+
+        $this->assertEquals(60.0, $df->sum('value'));
+    }
+
+    public function test_sum_throws_exception_for_non_numeric_column(): void
+    {
+        $df = new ArrayDataFrame([
+            ['name' => 'Alice'],
+        ]);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('non-numeric');
+
+        $df->sum('name');
+    }
+
+    // -----------------------------------------------------------------------
+    //  min() / max()
+    // -----------------------------------------------------------------------
+
+    public function test_min_returns_smallest_value(): void
+    {
+        $df = new ArrayDataFrame([
+            ['age' => 30],
+            ['age' => 25],
+            ['age' => 35],
+        ]);
+
+        $this->assertEquals(25, $df->min('age'));
+    }
+
+    public function test_max_returns_largest_value(): void
+    {
+        $df = new ArrayDataFrame([
+            ['age' => 30],
+            ['age' => 25],
+            ['age' => 35],
+        ]);
+
+        $this->assertEquals(35, $df->max('age'));
+    }
+
+    public function test_min_throws_exception_for_nonexistent_column(): void
+    {
+        $df = new ArrayDataFrame([['age' => 30]]);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('does not exist');
+
+        $df->min('nonexistent');
+    }
+
+    // -----------------------------------------------------------------------
     //  select()
     // -----------------------------------------------------------------------
 
@@ -134,7 +197,7 @@ class DataFrameTest extends TestCase
 
         $filtered = $df->filter('age', '==', 30);
 
-        $this->assertCount(2, $filtered);
+        $this->assertSame(2, $filtered->count());
         $this->assertSame('Alice', $filtered->toArray()[0]['name']);
         $this->assertSame('Charlie', $filtered->toArray()[1]['name']);
     }
@@ -150,7 +213,7 @@ class DataFrameTest extends TestCase
 
         $filtered = $df->filter('age', '>', 25);
 
-        $this->assertCount(2, $filtered);
+        $this->assertSame(2, $filtered->count());
     }
 
     public function test_filter_with_less_than_operator(): void
@@ -161,7 +224,7 @@ class DataFrameTest extends TestCase
         ]);
 
         $filtered = $df->filter('age', '<', 30);
-        $this->assertCount(1, $filtered);
+        $this->assertSame(1, $filtered->count());
         $this->assertSame('Bob', $filtered->toArray()[0]['name']);
     }
 
@@ -172,7 +235,44 @@ class DataFrameTest extends TestCase
         ]);
 
         $filtered = $df->filter('age', '>', 100);
-        $this->assertCount(0, $filtered);
+        $this->assertSame(0, $filtered->count());
+    }
+
+    // -----------------------------------------------------------------------
+    //  groupBy()
+    // -----------------------------------------------------------------------
+
+    public function test_group_by_count(): void
+    {
+        $df = new ArrayDataFrame([
+            ['city' => 'NYC', 'name' => 'Alice'],
+            ['city' => 'LA', 'name' => 'Bob'],
+            ['city' => 'NYC', 'name' => 'Charlie'],
+        ]);
+
+        $result = $df->groupBy('city')->count()->toArray();
+
+        $this->assertCount(2, $result);
+
+        $nyc = $result[0]['city'] === 'NYC' ? $result[0] : $result[1];
+        $la = $result[0]['city'] === 'LA' ? $result[0] : $result[1];
+
+        $this->assertEquals(2, $nyc['count']);
+        $this->assertEquals(1, $la['count']);
+    }
+
+    public function test_group_by_mean(): void
+    {
+        $df = new ArrayDataFrame([
+            ['city' => 'NYC', 'age' => 30],
+            ['city' => 'LA', 'age' => 20],
+            ['city' => 'NYC', 'age' => 40],
+        ]);
+
+        $result = $df->groupBy('city')->mean('age')->toArray();
+
+        $nyc = $result[0]['city'] === 'NYC' ? $result[0] : $result[1];
+        $this->assertEquals(35.0, $nyc['age']);
     }
 
     // -----------------------------------------------------------------------
@@ -216,10 +316,34 @@ class DataFrameTest extends TestCase
             ->filter('city', '==', 'NYC')
             ->select(['name', 'age']);
 
-        $this->assertCount(2, $result);
+        $this->assertSame(2, $result->count());
         $this->assertSame([
             ['name' => 'Alice', 'age' => 30],
             ['name' => 'Charlie', 'age' => 35],
         ], $result->toArray());
+    }
+
+    public function test_full_pipeline(): void
+    {
+        $data = [
+            ['city' => 'NYC', 'age' => 30, 'salary' => 50000],
+            ['city' => 'LA', 'age' => 25, 'salary' => 60000],
+            ['city' => 'NYC', 'age' => 35, 'salary' => 70000],
+            ['city' => 'LA', 'age' => 28, 'salary' => 55000],
+            ['city' => 'NYC', 'age' => 40, 'salary' => 80000],
+        ];
+        $df = new ArrayDataFrame($data);
+
+        // People over 30, grouped by city, average salary
+        $result = $df
+            ->filter('age', '>', 30)
+            ->groupBy('city')
+            ->mean('salary')
+            ->toArray();
+
+        // Only NYC has people over 30 (35 and 40)
+        $this->assertCount(1, $result);
+        $this->assertEquals('NYC', $result[0]['city']);
+        $this->assertEquals(75000.0, $result[0]['salary']);
     }
 }
