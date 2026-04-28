@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oxide\Tests\Unit;
+namespace Tabula\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 

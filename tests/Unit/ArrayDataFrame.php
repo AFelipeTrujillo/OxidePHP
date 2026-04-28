@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Oxide\Tests\Unit;
+namespace Tabula\Tests\Unit;
 
-use Oxide\Core\DataFrame as DataFrameInterface;
-use Oxide\Core\GroupedDataFrame;
+use Tabula\Core\DataFrame as DataFrameInterface;
+use Tabula\Core\GroupedDataFrame;
 
 /**
  * ArrayDataFrame — Test Double for DataFrame Interface

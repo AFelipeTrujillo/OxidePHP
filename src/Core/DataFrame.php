@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Oxide\Core;
+namespace Tabula\Core;
 
 /**
  * DataFrame Interface
  *
  * This contract defines the standard operations for tabular data manipulation
- * within the OxidePHP ecosystem. By coding to this interface, we ensure
+ * within the TabulaPHP ecosystem. By coding to this interface, we ensure
  * the application remains decoupled from the underlying engine.
  *
- * @package Oxide\Core
+ * @package Tabula\Core
  */
 interface DataFrame
 {

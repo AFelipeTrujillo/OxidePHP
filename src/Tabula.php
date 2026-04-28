@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Oxide;
+namespace Tabula;
 
-use Oxide\Core\DataFrame;
-use Oxide\Drivers\SQLite\SQLiteDataFrame;
+use Tabula\Core\DataFrame;
+use Tabula\Drivers\SQLite\SQLiteDataFrame;
 
 /**
- * OxidePHP Entry Point
+ * TabulaPHP Entry Point
  *
- * This class provides a static interface to access the high-performance
- * data engines. It acts as a Facade to simplify the creation of DataFrames.
+ * This class provides a static interface to access the data engine.
+ * It acts as a Facade to simplify the creation of DataFrames.
  *
- * By default, OxidePHP uses the SQLite engine, which requires no external
+ * By default, TabulaPHP uses the SQLite engine, which requires no external
  * dependencies and provides excellent performance for medium-sized datasets
  * through optimized in-memory SQL queries.
  */
-class Oxide
+class Tabula
 {
     /**
      * Reads a CSV file and returns a SQLite-powered DataFrame.

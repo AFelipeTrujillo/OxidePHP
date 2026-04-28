@@ -1,6 +1,6 @@
-# OxidePHP 🐘⚡
+# TabulaPHP 🐘⚡
 
-**OxidePHP** is a high-performance, zero-dependency DataFrame library for PHP 8.1+. It brings **vectorized-style data processing** and a **fluent, Pandas-inspired API** to the PHP ecosystem — powered by an **in-memory SQLite engine**.
+**TabulaPHP** is a high-performance, zero-dependency DataFrame library for PHP 8.1+. It brings **vectorized-style data processing** and a **fluent, Pandas-inspired API** to the PHP ecosystem — powered by an **in-memory SQLite engine**.
 
 No external extensions required. No compilation needed. Just PHP and SQLite (bundled by default).
 
@@ -17,7 +17,7 @@ No external extensions required. No compilation needed. Just PHP and SQLite (bun
 
 ## Architecture
 
-OxidePHP is built with a **Ports and Adapters (Hexagonal)** approach to ensure long-term maintainability:
+TabulaPHP is built with a **Ports and Adapters (Hexagonal)** approach to ensure long-term maintainability:
 
 1. **Core (Domain):** Defines the contracts (Interfaces) for `DataFrame` and `GroupedDataFrame`.
 2. **Drivers (Adapters):** Implements the interfaces using an in-memory **SQLite** engine.
@@ -46,10 +46,10 @@ That's it. No compilation, no configuration, no `php.ini` changes.
 ## Quick Start
 
 ```php
-use Oxide\Oxide;
+use Tabula\Tabula;
 
 // Load a CSV file
-$df = Oxide::readCsv('large_dataset.csv');
+$df = Tabula::readCsv('large_dataset.csv');
 
 // Get the average of a numeric column
 $averagePrice = $df->mean('price');
@@ -72,9 +72,9 @@ print_r($result);
 ### Basic Operations
 
 ```php
-use Oxide\Oxide;
+use Tabula\Tabula;
 
-$df = Oxide::readCsv('employees.csv');
+$df = Tabula::readCsv('employees.csv');
 
 // Counting rows
 echo $df->count(); // 1000
@@ -141,7 +141,7 @@ $result = $df
 
 ```php
 // Filter → Group By → Aggregate → Export
-$result = Oxide::readCsv('sales.csv')
+$result = Tabula::readCsv('sales.csv')
     ->filter('amount', '>', 1000)
     ->groupBy('region')
     ->mean('amount')

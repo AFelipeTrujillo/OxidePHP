@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Oxide\Drivers\SQLite;
+namespace Tabula\Drivers\SQLite;
 
-use Oxide\Core\DataFrame as DataFrameInterface;
-use Oxide\Core\GroupedDataFrame;
+use Tabula\Core\DataFrame as DataFrameInterface;
+use Tabula\Core\GroupedDataFrame;
 use InvalidArgumentException;
 use SQLite3;
-use Oxide\Drivers\SQLite\SQLiteDataFrame;
+use Tabula\Drivers\SQLite\SQLiteDataFrame;
 
 /**
  * SQLite-backed GroupedDataFrame implementation.

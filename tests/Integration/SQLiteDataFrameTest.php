@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Oxide\Tests\Integration;
+namespace Tabula\Tests\Integration;
 
-use Oxide\Drivers\SQLite\SQLiteDataFrame;
+use Tabula\Drivers\SQLite\SQLiteDataFrame;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -165,7 +165,7 @@ class SQLiteDataFrameTest extends TestCase
 
     public function test_oxide_facade(): void
     {
-        $df = \Oxide\Oxide::readCsv($this->csvPath);
+        $df = \Tabula\Tabula::readCsv($this->csvPath);
 
         $this->assertInstanceOf(SQLiteDataFrame::class, $df);
         $this->assertSame(5, $df->count());
@@ -173,6 +173,6 @@ class SQLiteDataFrameTest extends TestCase
 
     public function test_is_ready(): void
     {
-        $this->assertTrue(\Oxide\Oxide::isReady());
+        $this->assertTrue(\Tabula\Tabula::isReady());
     }
 }

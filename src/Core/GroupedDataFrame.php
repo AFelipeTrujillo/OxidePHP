@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Oxide\Core;
+namespace Tabula\Core;
 
 /**
  * GroupedDataFrame Interface
  *
  * Represents the result of a groupBy operation, supporting aggregation methods.
  *
- * @package Oxide\Core
+ * @package Tabula\Core
  */
 interface GroupedDataFrame
 {

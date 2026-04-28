@@ -1,16 +1,16 @@
 {
-    "name": "afelipetrujillo/oxide-php",
-    "description": "High-performance DataFrames for PHP powered by Rust.",
+    "name": "afelipetrujillo/tabulaphp",
+    "description": "TabulaPHP - DataFrame library for PHP powered by SQLite.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Oxide\\": "src/"
+            "Tabula\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Oxide\\Tests\\": "tests/"
+            "Tabula\\Tests\\": "tests/"
         }
     },
     "require": {
