@@ -1,5 +1,11 @@
 # TabulaPHP 🐘⚡
 
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-777BB4?style=flat-square&logo=php)](https://php.net)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Tests](https://github.com/AFelipeTrujillo/TabulaPHP/actions/workflows/tests-on-tag.yml/badge.svg)](https://github.com/AFelipeTrujillo/TabulaPHP/actions/workflows/tests-on-tag.yml)
+[![Version](https://img.shields.io/github/v/tag/AFelipeTrujillo/TabulaPHP?style=flat-square&label=version)](https://github.com/AFelipeTrujillo/TabulaPHP/tags)
+[![GitHub Stars](https://img.shields.io/github/stars/AFelipeTrujillo/TabulaPHP?style=flat-square)](https://github.com/AFelipeTrujillo/TabulaPHP/stargazers)
+
 **TabulaPHP** is a high-performance, zero-dependency DataFrame library for PHP 8.1+. It brings **vectorized-style data processing** and a **fluent, Pandas-inspired API** to the PHP ecosystem — powered by an **in-memory SQLite engine**.
 
 No external extensions required. No compilation needed. Just PHP and SQLite (bundled by default).
@@ -36,7 +42,7 @@ TabulaPHP is built with a **Ports and Adapters (Hexagonal)** approach to ensure 
 ### Setup
 
 ```bash
-composer require your-handle/oxide-php
+composer require afelipetrujillo/tabulaphp
 ```
 
 That's it. No compilation, no configuration, no `php.ini` changes.
@@ -229,7 +235,7 @@ src/
 │   └── SQLite/
 │       ├── SQLiteDataFrame.php
 │       └── SQLiteGroupedDataFrame.php
-└── Oxide.php          # Facade / Entry point
+└── Tabula.php         # Facade / Entry point
 
 tests/
 ├── Unit/
