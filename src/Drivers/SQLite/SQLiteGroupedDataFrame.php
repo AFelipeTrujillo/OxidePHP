@@ -8,6 +8,7 @@ use Oxide\Core\DataFrame as DataFrameInterface;
 use Oxide\Core\GroupedDataFrame;
 use InvalidArgumentException;
 use SQLite3;
+use Oxide\Drivers\SQLite\SQLiteDataFrame;
 
 /**
  * SQLite-backed GroupedDataFrame implementation.
